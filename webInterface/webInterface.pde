@@ -20,16 +20,10 @@ void setup(){
 Ethernet.begin(mac, ip, gateway, subnet);
 delay(1000);
 
-pinMode(3, OUTPUT);
-digitalWrite(3, LOW);
-pinMode(4, OUTPUT);
-digitalWrite(4, LOW);
-pinMode(5, OUTPUT);
-digitalWrite(5, LOW);
-pinMode(6, OUTPUT);
-digitalWrite(6, LOW);
-pinMode(7, OUTPUT);
-digitalWrite(7, LOW);
+for (int i=0;i<SensorsCount;i++){
+  pinMode(i+2, OUTPUT);
+  digitalWrite(i+2, LOW);
+}
 
 //Serial.begin(9600);
 } 
@@ -51,7 +45,7 @@ void loop(){
         client.println("<h1>");
         client.println(title);
         client.println("</h1>");
-        client.println(readString);
+        //client.println(readString);
       if(readString.startsWith("GET /index")){
 
         client.println("<h2>Sensors</h2>");
@@ -67,6 +61,17 @@ void loop(){
       else {      
           for (int i=0;i<SensorsCount;i++){
             if(readString.startsWith("GET /"+Sensors[i])){
+               client.println("<br>");
+                          if(readString.startsWith("GET /"+Sensors[i]+"/ON")){
+                                          client.println("turning on");
+                                          digitalWrite(i+2, HIGH);
+                          }
+                          if(readString.startsWith("GET /"+Sensors[i]+"/OFF")){
+                                          client.println("turning off");
+                                          digitalWrite(i+2, LOW);
+                          
+                          }
+                                          
               String sname = Sensors[i];
               client.println("<br>");
               client.println("<a href=\"/"+sname+"/ON\"> turn on "+sname+"</a>");
