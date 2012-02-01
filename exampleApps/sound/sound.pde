@@ -1,4 +1,5 @@
 int soundLevel=0;
+double total=0,  count = 0;
 
 void setup()
 {
@@ -10,16 +11,18 @@ void setup()
   digitalWrite(2, LOW);    // set the LED off  
   digitalWrite(4, LOW);    // set the LED off  
   digitalWrite(5, LOW);    // set the LED off  
+
 }
 
-int average()
+int average(int pin)
 {
   int x = 0;
   int y = 0;
   
-  for (int i = 0; i <= 10; i++)
+  
+  for (int i = 0; i < 10; i++)
   {
-    x = analogRead(0);
+    x = analogRead(pin);
     y += x;
   }
   
@@ -30,24 +33,39 @@ int average()
 void loop()
 {
 
-  float currSound = average();
+  
+
+  float currSound = average(0);
+  /*
+  total+=currSound;
+  count++;
+  int mean = total/count;
+    Serial.println(mean);  
+  */
+  
+
   float soundDiff = currSound-soundLevel;
   
   float value = soundDiff/soundLevel;
-  
-  if ((value>0.15)||(value<-0.15)){
-   digitalWrite(3, HIGH);    // set the LED off    
+
+  //  Serial.println(soundLevel);  
+   if ((value>8)||(value<-8)){
+       Serial.println(value);  
+   digitalWrite(5, HIGH);    // set the LED off    
+   count=0;
    Serial.println("case1");
-   if ((value>0.25)||(value<-0.25)){
-    Serial.println("case2");
-    digitalWrite(5, HIGH);    // set the LED off    
-   }
-   Serial.println(value);
+//   if ((value>0.1)||(value<-0.1)){
+//    Serial.println("case2");
+//    digitalWrite(3, HIGH);    // set the LED off    
+   //}
+//   Serial.println(value);
 
   }
   else {  
+    if (--count==0){
    digitalWrite(3, LOW);    // set the LED off    
    digitalWrite(5, LOW);    // set the LED off    
+    }
   }
   //Serial.println("*Diff");
   //Serial.println(soundDiff);
@@ -56,6 +74,6 @@ void loop()
   //Serial.println("*Level");
   //Serial.println(soundLevel);
   
-  delay(150);
+  delay(20);
 } 
 
