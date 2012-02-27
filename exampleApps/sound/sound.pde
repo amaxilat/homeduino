@@ -37,24 +37,21 @@ void loop(){
   float soundDiff = currSound-soundLevel;
   
   float value = soundDiff/soundLevel;
-
+  Serial.println(value);  
   //  Serial.println(soundLevel);  
-   if ((value>50)||(value<-50)){
-       Serial.println(value);  
+   if ((value>120)||(value<-120)){
+
        digitalWrite(5, HIGH);    // set the LED off    
        count=0;
-       Serial.println("case2");
-       delay(100);
+       digitalWrite(3, LOW);    // set the LED off    
+       delay(value+1);
   }
-  else if {
-       if ((value>20)||(value<-20)){
-       Serial.println(value);  
+  else if ((value>20)||(value<-20)){
        digitalWrite(3, HIGH);    // set the LED off    
        count=0;
-       Serial.println("case1");
-       delay(50);
-  }  
-  else {  
+       digitalWrite(5, LOW);    // set the LED off    
+       delay(value+1);
+  } else {  
       digitalWrite(3, LOW);    // set the LED off    
       digitalWrite(5, LOW);    // set the LED off    
   }
